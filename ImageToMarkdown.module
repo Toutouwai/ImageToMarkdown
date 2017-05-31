@@ -1,0 +1,54 @@
+<?php
+
+/**
+ *
+ * Image To Markdown
+ *
+ * @author Robin Sallis
+ *
+ * ProcessWire 3.x
+ * Copyright (C) 2011 by Ryan Cramer
+ * Licensed under GNU/GPL v2, see LICENSE.TXT
+ *
+ * http://www.processwire.com
+ * http://www.ryancramer.com
+ *
+ */
+
+class ImageToMarkdown extends WireData implements Module {
+
+	/**
+	 * Module information
+	 */
+	public static function getModuleInfo() {
+		return array(
+			'title' => 'Image To Markdown',
+			'version' => 1,
+			'summary' => 'Alt+click an image in Page Edit to copy an image markdown string to clipboard.',
+			'author' => 'Robin Sallis',
+			'autoload' => "template=admin",
+		);
+	}
+
+	/**
+	 * Ready
+	 */
+	public function ready() {
+		$this->addHookAfter('ProcessPageEdit::execute', $this, 'addScript');
+	}
+
+	/**
+	 * Add script
+	 */
+	public function addScript($event) {
+		// return if ProcessPageEdit is being loaded via AJAX (image field)
+		if($this->config->ajax) return;
+
+		// add JS
+		$config = $this->config;
+		$info = $this->getModuleInfo();
+		$version = (int) $info['version'];
+		$config->scripts->add("{$config->urls->$this}{$this}.js?v={$version}");
+	}
+
+}
