@@ -47,7 +47,7 @@ class ImageToMarkdown extends WireData implements Module {
 		// add JS
 		$config = $this->config;
 		$info = $this->getModuleInfo();
-		$version = (int) $info['version'];
+		$version = $info['version'];
 		$config->scripts->add("{$config->urls->$this}{$this}.js?v={$version}");
 	}
 
