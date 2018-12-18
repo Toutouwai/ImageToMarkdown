@@ -23,10 +23,12 @@ class ImageToMarkdown extends WireData implements Module {
 	public static function getModuleInfo() {
 		return array(
 			'title' => 'Image To Markdown',
-			'version' => 1,
 			'summary' => 'Alt+click an image in Page Edit to copy an image markdown string to clipboard.',
+			'version' => '0.1.0',
 			'author' => 'Robin Sallis',
-			'autoload' => "template=admin",
+			'href' => 'https://github.com/Toutouwai/ImageToMarkdown',
+			'icon' => 'picture-o',
+			'autoload' => 'template=admin',
 		);
 	}
 
@@ -39,12 +41,14 @@ class ImageToMarkdown extends WireData implements Module {
 
 	/**
 	 * Add script
+	 *
+	 * @param HookEvent $event
 	 */
-	public function addScript($event) {
-		// return if ProcessPageEdit is being loaded via AJAX (image field)
+	public function addScript(HookEvent $event) {
+		// Return if ProcessPageEdit is being loaded via AJAX (image field)
 		if($this->config->ajax) return;
 
-		// add JS
+		// Add JS
 		$config = $this->config;
 		$info = $this->getModuleInfo();
 		$version = $info['version'];
